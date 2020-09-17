@@ -32,7 +32,7 @@ OrderShapeEM.control <- function (maxIter = 250, tol = 1e-3,  trace = FALSE,
 #' p-value distribution are estimated using isotonic regression (pool-adjacent-violators algorithm).
 #'
 #' @param pvals a numeric vector of the p-values.
-#' @param order.var a vector of covariate values reflective of the order of the prior null probability of the hypotheses.
+#' @param order.var a numeric vector of covariate values reflective of the order of the prior null probability of the hypotheses.
 #' @param control  a list of control arguments for the EM algorithm
 #' \itemize{
 #' \item{maxIter}{an integer value indicating the maximum number of iterations.}
@@ -49,9 +49,9 @@ OrderShapeEM.control <- function (maxIter = 250, tol = 1e-3,  trace = FALSE,
 #' \item{pi0}{a numeric vector of the estimated null probabilities after calibration.}
 #' \item{lfdr}{a numeric vector of the local fdrs.}
 #' \item{fdr}{a numeric vector of the adjusted p-values.}
-#' \item{f1}{a vector of the estimated densities for the alternative distribution.}
-#' \item{pi0.step}{an object of \code{stepfun} class for the pi0.}
-#' \item{f1}{an object of \code{stepfun} class for the f1.}
+#' \item{f1}{a vector of the estimated densities for the p-value under the alternative.}
+#' \item{pi0.step}{an object of class \code{stepfun} for the pi0.}
+#' \item{f1.step}{an object of class \code{stepfun} for the f1.}
 #' \item{convergence}{a list containing the convergence information. \code{code}: 1 - converged, 0 - not converged;
 #' \code{iter}: the number of iterations performed.}
 #' \item{loglik}{a numeric value for the log likelihood.}
@@ -221,11 +221,11 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 #'
 #' The function simulates p-values and the auxiliary covariate under different signal structures (density and strength) and covariate informativeness. 
 #'
-#' @param prior.strength a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the covariate strength.
+#' @param prior.strength a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the covariate informativeness.
 #' @param feature.no an integer, the number of features to be simulated.
-#' @param sig.dist  a character string from \code{'Normal', 'Gamma'} indicating the distribution of the z-value under alternative.
-#' @param sig.density  a character string from \code{'None', 'Lower', 'Low', 'Medium', 'High'} indicating the level of signal density.
-#' @param sig.strength a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the level of signal strength.
+#' @param sig.dist  a character string from \code{'Normal', 'Gamma'} indicating the distribution of the z-value under the alternative.
+#' @param sig.density  a character string from \code{'None', 'Lower', 'Low', 'Medium', 'High'} indicating the level of the signal density.
+#' @param sig.strength a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the level of the signal strength.
 #' @return A list with the elements
 #' \item{pvalue}{a numeric vector of p-values.}
 #' \item{prior}{a vector of covariate values reflecting the order of the prior null probabilities.}

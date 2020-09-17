@@ -13,15 +13,15 @@ SimulateData(
 )
 }
 \arguments{
-\item{prior.strength}{a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the covariate strength.}
+\item{prior.strength}{a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the covariate informativeness.}
 
 \item{feature.no}{an integer, the number of features to be simulated.}
 
-\item{sig.dist}{a character string from \code{'Normal', 'Gamma'} indicating the distribution of the z-value under alternative.}
+\item{sig.dist}{a character string from \code{'Normal', 'Gamma'} indicating the distribution of the z-value under the alternative.}
 
-\item{sig.density}{a character string from \code{'None', 'Lower', 'Low', 'Medium', 'High'} indicating the level of signal density.}
+\item{sig.density}{a character string from \code{'None', 'Lower', 'Low', 'Medium', 'High'} indicating the level of the signal density.}
 
-\item{sig.strength}{a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the level of signal strength.}
+\item{sig.strength}{a character string from \code{'Weak', 'Moderate', 'Strong'} indicating the level of the signal strength.}
 }
 \value{
 A list with the elements

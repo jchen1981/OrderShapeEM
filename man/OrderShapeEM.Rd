@@ -9,7 +9,7 @@ OrderShapeEM(pvals, order.var, control = OrderShapeEM.control())
 \arguments{
 \item{pvals}{a numeric vector of the p-values.}
 
-\item{order.var}{a vector of covariate values reflective of the order of the prior null probability of the hypotheses.}
+\item{order.var}{a numeric vector of covariate values reflective of the order of the prior null probability of the hypotheses.}
 
 \item{control}{a list of control arguments for the EM algorithm
 \itemize{
@@ -28,9 +28,9 @@ A list with the elements
 \item{pi0}{a numeric vector of the estimated null probabilities after calibration.}
 \item{lfdr}{a numeric vector of the local fdrs.}
 \item{fdr}{a numeric vector of the adjusted p-values.}
-\item{f1}{a vector of the estimated densities for the alternative distribution.}
-\item{pi0.step}{an object of \code{stepfun} class for the pi0.}
-\item{f1}{an object of \code{stepfun} class for the f1.}
+\item{f1}{a vector of the estimated densities for the p-value under the alternative.}
+\item{pi0.step}{an object of class \code{stepfun} for the pi0.}
+\item{f1.step}{an object of class \code{stepfun} for the f1.}
 \item{convergence}{a list containing the convergence information. \code{code}: 1 - converged, 0 - not converged;
 \code{iter}: the number of iterations performed.}
 \item{loglik}{a numeric value for the log likelihood.}
