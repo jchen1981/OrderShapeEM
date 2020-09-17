@@ -1,0 +1,11 @@
+Package: OrderShapeEM
+Type: Package
+Title: Optimal false discovery rate control using auxiliary (order) information based on a shape-constrained EM algorithm
+Version: 1.0
+Date: 2020-09-16
+Author: Jun Chen, Xianyang Zhang, Hongyuan Cao
+Maintainer: Jun Chen <chen.jun2@mayo.edu>
+Depends: R (>= 3.2.0), qvalue, Iso
+Description:  The package implements a scalable and tuning parameter-free FDR control procedure for large-scale multiple testing exploiting the auxiliary information that reflects the order of the prior null probability. Both the prior null probabilities and the alternative p-value distribution are estimated using isotonic regression (pool-adjacent-violators algorithm).
+License: GPL-2
+RoxygenNote: 7.1.1
