@@ -17,7 +17,7 @@ devtools::install_github("jchen1981/OrderShapeEM")
 
 
 ### An Example
-We illustrate the usage of tdfdr package using simulated data.
+We illustrate the usage of OrderShapeEM package using simulated data.
 
 ```
 require(OrderShapeEM)
