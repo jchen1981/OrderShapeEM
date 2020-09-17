@@ -23,7 +23,8 @@ We illustrate the usage of tdfdr package using simulated data.
 require(OrderShapeEM)
 set.seed(123)
 
-data.obj <- SimulateData(prior.strength = 'Moderate', sig.density = 'Low', sig.strength = 'Weak', feature.no = 5000)
+data.obj <- SimulateData(prior.strength = 'Moderate', sig.density = 'Low', sig.strength = 'Weak', 
+feature.no = 5000)
 orderfdr.obj <- OrderShapeEM(data.obj$pvalue, data.obj$prior, OrderShapeEM.control(trace = TRUE))
 
 # Plot the estimated pi0 and f1
@@ -39,7 +40,8 @@ sum(orderfdr.obj$fdr <= 0.05 & !data.obj$truth) / max(sum(orderfdr.obj$fdr <= 0.
 
 # Compare to the BH procedure
 sum(p.adjust(data.obj$p.value, 'fdr') <= 0.05 & data.obj$truth)
-sum(p.adjust(data.obj$p.value, 'fdr') <= 0.05 & !data.obj$truth) / max(sum(p.adjust(data.obj$p.value, 'fdr') <= 0.05), 1)
+sum(p.adjust(data.obj$p.value, 'fdr') <= 0.05 & !data.obj$truth) / max(sum(p.adjust(
+	data.obj$p.value, 'fdr') <= 0.05), 1)
   
 ```
 
