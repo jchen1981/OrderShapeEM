@@ -26,6 +26,7 @@ A list with the elements
 \item{call}{the call made.}
 \item{pi0.unadj}{a numeric vector of the estimated null probabilities before calibration.}
 \item{pi0}{a numeric vector of the estimated null probabilities after calibration.}
+\item{delta}{a numeric value of the amount of calibration.}
 \item{lfdr}{a numeric vector of the local fdrs.}
 \item{fdr}{a numeric vector of the adjusted p-values.}
 \item{f1}{a vector of the estimated densities for the p-value under the alternative.}

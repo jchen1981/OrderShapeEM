@@ -52,6 +52,7 @@ func <- function(part, paras) {
 						pvalue <- data$pvalue
 						truth <- data$truth
 						pi0.true <- mean(!truth)
+
 						
 						# Call methods
 						# OrderShapeEM - the original algorithm
@@ -67,7 +68,7 @@ func <- function(part, paras) {
 						
 						try({
 									cat('.')
-									fdr <- rep(1, feature.no)
+									fdr <- rep(1, m)
 									x.df <- data.frame(x = prior)
 									formulas <- paste0("ns(x, df=6)")
 									adapt1.res <- adapt_glm(x = x.df, pvals = pvalue, pi_formulas = formulas, mu_formulas = formulas, 
@@ -80,7 +81,7 @@ func <- function(part, paras) {
 						try({
 									source(file.path(resdir, 'adaptMT2.R'))
 									cat('.')
-									fdr <- rep(1, feature.no)
+									fdr <- rep(1, m)
 									x.df <- data.frame(x = prior)
 									formulas <- paste0("ns(x, df=6)")
 									adapt2.res <- adapt_glm2(x = x.df, pvals = pvalue, pi_formulas = formulas, mu_formulas = formulas, 
@@ -103,29 +104,29 @@ func <- function(part, paras) {
 						index1 <- order(index0)
 						
 						khats <- HingeExp(pvalue[index0] * (1-1/(1+choose(10,5))), alpha = fdr.cutoff, C = 2)
-						fdr <- rep(1, feature.no)
+						fdr <- rep(1, m)
 						fdr[1:khats] <- fdr.cutoff / 2
 						res.obj[['HingeExp']] <- list(fdr=fdr[index1])
 						
 						khats <- SeqStep(pvalue[index0], alpha = fdr.cutoff, C = 2)
-						fdr <- rep(1, feature.no)
+						fdr <- rep(1, m)
 						fdr[1:khats] <- fdr.cutoff / 2
 						res.obj[['SeqStep']] <- list(fdr=fdr[index1])
 						
 						
 						khats <- Adaptive_SeqStep_method(pvalue[index0], fdr.cutoff, thr1, thr2)
-						fdr <- rep(1, feature.no)
+						fdr <- rep(1, m)
 						fdr[khats] <- fdr.cutoff / 2
 						res.obj[['AdaptiveSeqStep']] <- list(fdr=fdr[index1])
 						
 						
 						khats <- ForwardStop(pvalue[index0] * (1-1/(1+choose(10,5))), alpha = fdr.cutoff)
-						fdr <- rep(1, feature.no)
+						fdr <- rep(1, m)
 						fdr[1:khats] <- fdr.cutoff / 2
 						res.obj[['ForwardStop']] <- list(fdr=fdr[index1])
 						
 						try({ 
-									fdr <- rep(1, feature.no)
+									fdr <- rep(1, m)
 									pvals <- pvalue[index0]
 									qhat <- Solve_q_step(pvals, 0.5, 0.1)
 									fdr[SABHA_method(pvals, qhat, fdr.cutoff, 0.5)]  <- fdr.cutoff / 2

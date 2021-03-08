@@ -47,6 +47,7 @@ OrderShapeEM.control <- function (maxIter = 250, tol = 1e-3,  trace = FALSE,
 #' \item{call}{the call made.}
 #' \item{pi0.unadj}{a numeric vector of the estimated null probabilities before calibration.}
 #' \item{pi0}{a numeric vector of the estimated null probabilities after calibration.}
+#' \item{delta}{a numeric value of the amount of calibration.}
 #' \item{lfdr}{a numeric vector of the local fdrs.}
 #' \item{fdr}{a numeric vector of the adjusted p-values.}
 #' \item{f1}{a vector of the estimated densities for the p-value under the alternative.}
@@ -102,10 +103,6 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 	pi0.est <- max(c(pi0est(pvals, pi0.method = 'bootstrap')$pi0,  
 					pi0est(pvals, pi0.method = 'smoother')$pi0))
 	
-	if (pi0.est == 1) {
-		cat('The estimated pi0 is 1. The qvalue procedure is used instead!\n')
-		return(list(call = match.call(), fdr = qvalue(pvals)$qvalue,  pi0.global = 1))
-	}
 	
 	pvals[pvals < pvals.cutoff] <- pvals.cutoff
 	out <- sort(pvals, index.return=TRUE)
@@ -114,7 +111,7 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 	
 	order.var <- order.var[index0]
 	index <- sort(order.var, index.return = TRUE)$ix
-
+	
 	pvals.diff <- c(pvals[1], diff(pvals))   
 	m <- length(pvals)
 	
@@ -179,16 +176,18 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 	stepfun2 <- pava(y, q1, decreasing = TRUE, long.out = FALSE, stepfun = TRUE)
 	stepfun2 <- stepfun(x = pvals[knots(stepfun2 )],  y = c(f1[knots(stepfun2)[1] - 1], f1[knots(stepfun2)]))
 	
+	
 	# pi0 calibration
-	if (mean(pi0) >= pi0.est) {
-		delta <- 0
-	} else {
-		delta <- (pi0.est - mean(pi0)) / mean(1 - pi0)
-	}
+	delta <- (pi0.est - mean(pi0)) / mean(1 - pi0)
+	delta <- ifelse(delta < 0 | is.nan(delta), 0, delta)
+	
 	
 	pi0.unadj <- pi0
 	pi0 <- pi0 + delta * (1 - pi0)
 	pi1 <- 1 - pi0
+	
+	
+	stepfun1 <- stepfun(x = knots(stepfun1), y = c(min(pi0), sort(pi0)[knots(stepfun1)]))
 	
 	f01 <- pi1 * f1 + pi0 * f0
 	q0 <- pi0 * f0 / f01
@@ -197,13 +196,17 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 	index0 <- order(index0)
 	lfdr <- q0[index0]
 	pi0 <- pi0[index0] 
-	f1 <- f1[index0]
-	pi0.unadj <- pi0.unadj[index0]
 	
-	# Calculate fdr
+	
 	out <- sort(lfdr, index.return = TRUE)
 	fdr <- cumsum(out$x) / (1:m)
 	fdr <- fdr[order(out$ix)]
+	
+	# don't allow negative delta
+	f1 <- f1[index0]
+	pi0.unadj <- pi0.unadj[index0]
+	
+	
 	
 	cat('Finished!\n')
 	
@@ -212,10 +215,11 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 		warning("The order information seems weak. Our procedure could be slightly less powerful than the Storey's procedure.\n")
 	}
 	
-	return(list(call = match.call(), lfdr = lfdr, fdr = fdr,  pi0.unadj = pi0.unadj, pi0 = pi0, f1 = f1, 
-					pi0.step = stepfun1, f1.step = stepfun2, loglik = loglik,  converge = converge))
+	return(list(call = match.call(), lfdr = lfdr, fdr = fdr,  pi0.unadj = pi0.unadj, pi0 = pi0, f1 = f1, pi0.global = pi0.est,
+					pi0.step = stepfun1, f1.step = stepfun2, loglik = loglik,  delta = delta, converge = converge))
 	
 }
+
 
 #' Simulate p-values and the auxiliary covariate under various scenarios.
 #'

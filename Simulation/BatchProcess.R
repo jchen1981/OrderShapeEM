@@ -1,5 +1,5 @@
 
-scenes <- c('Sim4.2', 'Sim4.3', 'Sim4.4.new',  'Sim4.6', 'Sim5.2', 'Sim6', 'Sim8.4', 'Sim9.4')
+scenes <- c('Sim8.4', 'Sim9.4', 'Sim4.1', 'Sim4.2', 'Sim4.3', 'Sim4.4.new', 'Sim4.6', 'Sim5.2', 'Sim6')
 setwd("~/project/orderfdr/mforge/")
 
 for (scene in scenes) {
