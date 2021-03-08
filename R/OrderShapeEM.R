@@ -57,7 +57,7 @@ OrderShapeEM.control <- function (maxIter = 250, tol = 1e-3,  trace = FALSE,
 #' \code{iter}: the number of iterations performed.}
 #' \item{loglik}{a numeric value for the log likelihood.}
 #' 
-#' @author Jun Chen
+#' @author Jun Chen, Xianyang Zhang
 #' @references Hongyuan Cao, Jun Chen, Xianyang Zhang. Optimal false discovery rate control for large-scale multiple testing with
 #'  auxiliary information. Submitted.
 #' @keywords FDR
@@ -235,7 +235,7 @@ OrderShapeEM <- function (pvals, order.var,  control = OrderShapeEM.control()) {
 #' \item{prior}{a vector of covariate values reflecting the order of the prior null probabilities.}
 #' \item{truth}{a vector of logical values indicating H0 (=0) or H1 (=1).}
 #' 
-#' @author Jun Chen
+#' @author Jun Chen, Xianyang Zhang
 #' @references Hongyuan Cao, Jun Chen, Xianyang Zhang. Optimal false discovery rate control for large-scale multiple testing with
 #'  auxiliary information. Submitted.
 #' @keywords Simulation
